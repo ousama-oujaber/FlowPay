@@ -1,0 +1,63 @@
+[TEST CATEGORY 3] Testing Negative Values
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Test 17: Create Payment with amount = -1000.0                         [✅ PASSED - Exception caught: NegativeAmountException]
+Test 18: Create Payment with amount = 0.0                             [✅ PASSED]
+Test 19: Create Payment with amount = 999999999.99                   com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Out of range value for column 'montant' at row 1
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:104)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at src.dao.PaiementDAO.save(PaiementDAO.java:31)
+        at src.services.PaiementService.createPaiement(PaiementService.java:41)
+        at src.test.CrashTest.lambda$testNegativeValues$18(CrashTest.java:170)
+        at src.test.CrashTest.runTest(CrashTest.java:378)
+        at src.test.CrashTest.testNegativeValues(CrashTest.java:169)
+        at src.test.CrashTest.main(CrashTest.java:46)
+ [✅ PASSED]
+
+[TEST CATEGORY 4] Testing Boundary Values
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Test 20: Create Agent with 500-char email                            com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'email' at row 1
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:104)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at src.dao.AgentDAO.save(AgentDAO.java:31)
+        at src.services.AgentService.createAgent(AgentService.java:44)
+        at src.test.CrashTest.lambda$testBoundaryValues$19(CrashTest.java:183)
+        at src.test.CrashTest.runTest(CrashTest.java:378)
+        at src.test.CrashTest.testBoundaryValues(CrashTest.java:181)
+        at src.test.CrashTest.main(CrashTest.java:47)
+ [✅ PASSED]
+Test 21: Create Agent with 1000-char name                            com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'nom' at row 1
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:104)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at src.dao.AgentDAO.save(AgentDAO.java:31)
+        at src.services.AgentService.createAgent(AgentService.java:44)
+        at src.test.CrashTest.lambda$testBoundaryValues$20(CrashTest.java:189)
+        at src.test.CrashTest.runTest(CrashTest.java:378)
+        at src.test.CrashTest.testBoundaryValues(CrashTest.java:187)
+        at src.test.CrashTest.main(CrashTest.java:47)
+ [✅ PASSED]
+Test 22: Create Departement with 2000-char name                      com.mysql.cj.jdbc.exceptions.MysqlDataTruncation: Data truncation: Data too long for column 'nom' at row 1
+        at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:104)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+        at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+        at src.dao.DepartementDAO.save(DepartementDAO.java:28)
+        at src.services.DepartementService.createDepartement(DepartementService.java:40)
+        at src.test.CrashTest.lambda$testBoundaryValues$21(CrashTest.java:195)
+        at src.test.CrashTest.runTest(CrashTest.java:378)
+        at src.test.CrashTest.testBoundaryValues(CrashTest.java:193)
+        at src.test.CrashTest.main(CrashTest.java:47)
+ [✅ PASSED]

@@ -1,0 +1,77 @@
+@startuml
+title FlowPay - Diagramme de Classes (Conception)
+
+' ==================== ENUMERATIONS ====================
+enum TypeAgent {
+  OUVRIER
+  RESPONSABLE_DEPARTEMENT
+  DIRECTEUR
+  STAGIAIRE
+}
+
+enum TypePaiement {
+  SALAIRE
+  PRIME
+  BONUS
+  INDEMNITE
+}
+
+' ==================== MODELS ====================
+abstract class Personne {
+  - id: int
+  - nom: String
+  - prenom: String
+  - email: String
+  - motDePasse: String
+  + authentifier(): boolean
+}
+
+class Agent {
+  - typeAgent: TypeAgent
+  + calculerTotalPaiements(): double
+  + verifierEligibilite(): boolean
+}
+
+class Departement {
+  - nom: String
+  + ajouterAgent(): void
+  + retirerAgent(): void
+  + calculerMasseSalariale(): double
+}
+
+class Paiement {
+  - montant: double
+  - date: Date
+  - motif: String
+  - conditionValidee: boolean
+  + valider(): boolean
+}
+
+class Salaire
+class Prime
+class Bonus
+class Indemnite
+
+class Session {
+  - dateDebut: DateTime
+  - actif: boolean
+}
+
+' ==================== RELATIONSHIPS ====================
+
+' Inheritance
+Personne <|-- Agent
+Paiement <|-- Salaire
+Paiement <|-- Prime
+Paiement <|-- Bonus
+Paiement <|-- Indemnite
+
+' Associations
+Agent "1" -- "*" Paiement : reçoit >
+Agent "*" -- "0..1" Departement : appartient à >
+Agent -- TypeAgent
+Departement "1" -- "0..1" Agent : responsable
+Paiement -- TypePaiement
+Session "1" -- "1" Agent : concerne >
+
+@enduml

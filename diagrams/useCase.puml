@@ -1,0 +1,171 @@
+@startuml
+title FlowPay - Diagramme des Cas d'Utilisation
+
+left to right direction
+
+actor "Utilisateur" as User
+actor "Ouvrier" as Ouvrier
+actor "Responsable Département" as Responsable
+actor "Directeur" as Directeur
+actor "Système" as System
+
+rectangle "FlowPay - Système de Gestion des Paiements" {
+  
+  package "Authentification" {
+    usecase "Se connecter" as UC1
+    usecase "Se déconnecter" as UC2
+    usecase "Vérifier l'authentification" as UC3
+  }
+  
+  package "Gestion des Agents" {
+    usecase "Consulter les agents" as UC4
+    usecase "Créer un agent" as UC5
+    usecase "Modifier un agent" as UC6
+    usecase "Supprimer un agent" as UC7
+    usecase "Consulter un agent" as UC8
+  }
+  
+  package "Gestion des Départements" {
+    usecase "Consulter les départements" as UC9
+    usecase "Créer un département" as UC10
+    usecase "Modifier un département" as UC11
+    usecase "Supprimer un département" as UC12
+    usecase "Assigner un responsable" as UC13
+    usecase "Lister les agents du département" as UC14
+    usecase "Consulter les paiements du département" as UC15
+  }
+  
+  package "Gestion des Paiements" {
+    usecase "Créer un paiement" as UC16
+    usecase "Modifier un paiement" as UC17
+    usecase "Supprimer un paiement" as UC18
+    usecase "Consulter un paiement" as UC19
+    usecase "Lister tous les paiements" as UC20
+    usecase "Lister les paiements d'un agent" as UC21
+    usecase "Lister les paiements par type" as UC22
+    usecase "Lister les paiements par période" as UC23
+    usecase "Calculer le total par agent" as UC24
+    usecase "Calculer la moyenne par agent" as UC25
+  }
+  
+  package "Statistiques et Rapports" {
+    usecase "Consulter le total annuel d'un agent" as UC26
+    usecase "Compter les paiements par type" as UC27
+    usecase "Consulter le paiement le plus élevé" as UC28
+    usecase "Consulter le total du département" as UC29
+    usecase "Consulter le salaire moyen du département" as UC30
+    usecase "Classer les agents par total de paiements" as UC31
+    usecase "Consulter la distribution des paiements" as UC32
+  }
+  
+  package "Validation" {
+    usecase "Valider l'éligibilité" as UC33
+    usecase "Valider le montant" as UC34
+    usecase "Vérifier l'existence de l'agent" as UC35
+  }
+}
+
+' Relations Utilisateur de base
+User <|-- Ouvrier
+User <|-- Responsable
+User <|-- Directeur
+
+' Authentification - Tous les utilisateurs
+User --> UC1
+User --> UC2
+User --> UC3
+
+' Gestion des Agents - Directeur principalement
+Directeur --> UC4
+Directeur --> UC5
+Directeur --> UC6
+Directeur --> UC7
+Directeur --> UC8
+
+' Gestion des Départements - Directeur
+Directeur --> UC9
+Directeur --> UC10
+Directeur --> UC11
+Directeur --> UC12
+Directeur --> UC13
+Directeur --> UC14
+Directeur --> UC15
+
+' Responsable peut consulter
+Responsable --> UC9
+Responsable --> UC14
+Responsable --> UC15
+
+' Gestion des Paiements - Directeur et Responsable
+Directeur --> UC16
+Directeur --> UC17
+Directeur --> UC18
+Responsable --> UC16
+Responsable --> UC17
+
+' Consultation des paiements - Tous
+Directeur --> UC19
+Directeur --> UC20
+Responsable --> UC19
+Responsable --> UC20
+Ouvrier --> UC21
+Ouvrier --> UC19
+
+' Filtres et calculs - Directeur et Responsable
+Directeur --> UC22
+Directeur --> UC23
+Directeur --> UC24
+Directeur --> UC25
+Responsable --> UC22
+Responsable --> UC23
+Responsable --> UC24
+Responsable --> UC25
+
+' Statistiques - Principalement Directeur
+Directeur --> UC26
+Directeur --> UC27
+Directeur --> UC28
+Directeur --> UC29
+Directeur --> UC30
+Directeur --> UC31
+Directeur --> UC32
+
+Responsable --> UC29
+Responsable --> UC30
+
+' Validation - Système automatique
+System --> UC33
+System --> UC34
+System --> UC35
+
+' Relations include et extend
+UC16 ..> UC33 : <<include>>
+UC16 ..> UC34 : <<include>>
+UC16 ..> UC35 : <<include>>
+UC17 ..> UC33 : <<include>>
+UC17 ..> UC34 : <<include>>
+UC17 ..> UC35 : <<include>>
+
+note right of UC16
+  Création d'un paiement avec
+  validation automatique de
+  l'éligibilité, du montant
+  et de l'existence de l'agent
+end note
+
+note right of Directeur
+  Accès complet à toutes
+  les fonctionnalités
+end note
+
+note right of Responsable
+  Gère son département
+  et les paiements
+end note
+
+note right of Ouvrier
+  Consultation limitée
+  à ses propres informations
+end note
+
+@enduml

@@ -1,0 +1,68 @@
+@startuml
+title FlowPay - Création d'un Paiement
+
+actor User
+participant PaiementMenuView
+participant PaiementController
+participant PaiementService
+participant AgentDAO
+participant PaiementDAO
+database Database
+
+User -> PaiementMenuView: Créer un paiement
+activate PaiementMenuView
+PaiementMenuView -> PaiementController: createPaiement(agentId, type, montant, motif, conditionValidee, date)
+activate PaiementController
+
+PaiementController -> PaiementService: createPaiement(...)
+activate PaiementService
+
+PaiementService -> AgentDAO: findById(agentId)
+activate AgentDAO
+AgentDAO -> Database: SELECT * FROM agent WHERE id = ?
+activate Database
+Database --> AgentDAO: ResultSet
+deactivate Database
+AgentDAO --> PaiementService: Optional<Agent>
+deactivate AgentDAO
+
+alt Agent non trouvé
+    PaiementService --> PaiementController: AgentNotFoundException
+    PaiementController --> PaiementMenuView: Exception
+    PaiementMenuView --> User: "Agent introuvable"
+end
+
+PaiementService -> PaiementService: validateMontant(montant)
+
+alt Montant invalide
+    PaiementService --> PaiementController: NegativeAmountException
+    PaiementController --> PaiementMenuView: Exception
+    PaiementMenuView --> User: "Montant invalide"
+end
+
+PaiementService -> PaiementService: new Paiement(type, montant, motif, agent)
+PaiementService -> PaiementService: validateEligibility(paiement, agent)
+
+alt Agent non éligible
+    PaiementService --> PaiementController: InvalidPaymentConditionException
+    PaiementController --> PaiementMenuView: Exception
+    PaiementMenuView --> User: "Agent non éligible"
+end
+
+PaiementService -> PaiementDAO: save(paiement)
+activate PaiementDAO
+PaiementDAO -> Database: INSERT INTO paiement VALUES (...)
+activate Database
+Database --> PaiementDAO: ID généré
+deactivate Database
+PaiementDAO --> PaiementService: Paiement créé
+deactivate PaiementDAO
+
+PaiementService --> PaiementController: Paiement
+deactivate PaiementService
+PaiementController --> PaiementMenuView: Paiement
+deactivate PaiementController
+PaiementMenuView --> User: "Paiement créé avec succès"
+deactivate PaiementMenuView
+
+@enduml

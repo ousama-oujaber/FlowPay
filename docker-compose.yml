@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: flowpay_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: flowpay
+      MYSQL_USER: flowpay_user
+      MYSQL_PASSWORD: flowpay_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - flowpay_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: flowpay_phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql               # connect phpMyAdmin to the mysql service
+      PMA_USER: root                # optional, can use flowpay_user if you prefer
+      PMA_PASSWORD: rootpassword    # match MYSQL_ROOT_PASSWORD
+    ports:
+      - "8080:80"                    # access phpMyAdmin at http://localhost:8080
+    networks:
+      - flowpay_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  flowpay_network:
+    driver: bridge
