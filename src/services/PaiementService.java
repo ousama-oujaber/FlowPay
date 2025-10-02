@@ -112,8 +112,13 @@ public class PaiementService implements IPaiementService {
                 .orElse(0.0);
     }
 
+    /**
+     * Validates payment amount.
+     * @throws NegativeAmountException if amount is negative or zero
+     * @throws IllegalArgumentException if amount exceeds maximum limit
+     */
     private void validateMontant(double montant) throws NegativeAmountException {
-
+        //validate pay amount
         if (montant < 0) {
             throw new NegativeAmountException("Le montant ne peut pas être négatif");
         }
@@ -127,7 +132,12 @@ public class PaiementService implements IPaiementService {
         }
     }
 
+    /**
+     * Validates eligibility for bonus and indemnite payments.
+     * @throws InvalidPaymentConditionException if agent is not eligible or condition not validated
+     */
     private void validateEligibility(Paiement paiement, Agent agent) throws InvalidPaymentConditionException {
+        //validate eligibility 4 bonus
         if ((paiement.getType() == TypePaiement.BONUS || paiement.getType() == TypePaiement.INDEMNITE)) {
             if (!agent.isEligibleForBonus()) {
                 throw new InvalidPaymentConditionException("Agent non éligible pour " + paiement.getType());
