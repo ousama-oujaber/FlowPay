@@ -38,12 +38,14 @@ public class App {
         PaiementService paiementService = new PaiementService(paiementDAO, agentDAO);
         StatisticsService statisticsService = new StatisticsService(paiementDAO, agentDAO, departementDAO);
 
+        //init controllers
         AuthController authController = new AuthController(authService);
         AgentController agentController = new AgentController(agentService);
         DepartementController departementController = new DepartementController(departementService);
         PaiementController paiementController = new PaiementController(paiementService);
         StatisticsController statisticsController = new StatisticsController(statisticsService);
 
+        //setup views
         AuthView authView = new AuthView(authController, scanner);
         AgentMenuView agentMenuView = new AgentMenuView(scanner, agentController, departementController);
         DepartementMenuView departementMenuView = new DepartementMenuView(scanner, departementController);

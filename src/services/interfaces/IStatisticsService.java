@@ -11,13 +11,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Service interface for statistical analysis and reporting.
+ * Provides comprehensive analytics for agents, departments, and payments.
+ */
 public interface IStatisticsService {
+    //agent stats
     double getAnnualTotalForAgent(int agentId, int year) throws AgentNotFoundException;
     
     long countPaymentsByType(int agentId, TypePaiement type) throws AgentNotFoundException;
     
     Optional<Paiement> getHighestPaymentForAgent(int agentId) throws AgentNotFoundException;
     
+    //department stats
     double getDepartmentTotal(int departementId) throws DepartementNotFoundException;
     
     double getDepartmentAverageSalary(int departementId) throws DepartementNotFoundException;

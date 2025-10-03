@@ -30,6 +30,7 @@ public class StatisticsMenuView extends BaseMenuView {
     public void start() {
         boolean running = true;
         while (running) {
+            //show stats menu
             logSection("=== Statistiques ===");
             logInfo("1. Vue d'ensemble");
             logInfo("2. Total annuel d'un agent");
