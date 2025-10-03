@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Service interface for statistical analysis and reporting.
- * Provides comprehensive analytics for agents, departments, and payments.
- */
 public interface IStatisticsService {
     //agent stats
     double getAnnualTotalForAgent(int agentId, int year) throws AgentNotFoundException;
