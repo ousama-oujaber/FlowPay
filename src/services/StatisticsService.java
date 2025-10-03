@@ -133,4 +133,5 @@ public class StatisticsService implements IStatisticsService {
                 .mapToDouble(Paiement::getMontant)
                 .sum();
     }
+    
 }
