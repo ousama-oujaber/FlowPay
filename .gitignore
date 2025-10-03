@@ -8,6 +8,5 @@ bin/
 *.iml
 .idea/
 
-# Exclude documentation and tests
 docs/
 src/test/
